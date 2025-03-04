@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en" th:lang="${language}" th:class="|tw-${theme}|" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{_layout::head(title=~{::title}, scriptsDefer=~{::scriptsDefer}, preload=~{::preload})}">
+    <title th:text="#{person.notifications.meta.title}"></title>
+    <th:block th:fragment="preload">
+      <link rel="preload" th:replace="~{fragments/asset-dependency-preload::links('person_notifications.js')}" />
+    </th:block>
+    <th:block th:ref="scriptsDefer">
+      <script defer type="module" asset:src="person_notifications.js"></script>
+    </th:block>
+  </head>
+
+  <body th:replace="~{_layout::body(~{::main}, ~{})}">
+    <main th:fragment="main" class="tw-max-w-6xl tw-mx-auto tw-px-4 lg:tw-px-12 xl:tw-px-0">
+      <turbo-frame id="frame-feedback" data-turbo-action="replace">
+        <div class="feedback">
+          <p th:if="${success}" th:text="#{person.notifications.update.success}" class="alert alert-success"></p>
+          <p th:if="${error}" th:text="#{person.notifications.update.error}" class="alert alert-danger"></p>
+        </div>
+      </turbo-frame>
+
+      <div th:replace="~{fragments/section-heading::section-heading(~{::person-notifications-body}, ~{})}">
+        <th:block th:ref="person-notifications-body">
+          <h1 th:if="${isViewingOwnNotifications}" th:text="#{person.notifications.header.title}">
+            E-Mail-Benachrichtigungen
+          </h1>
+          <h1
+            th:unless="${isViewingOwnNotifications}"
+            th:text="#{person.notifications.header.title.other(${personNiceName})}"
+          >
+            E-Mail-Benachrichtigungen von Marlene
+          </h1>
+        </th:block>
+      </div>
+
+      <p th:text="#{person.notifications.teaser.text}">
+        Aktiviere oder Deaktiviere E-Mail Benachrichtigungen nach deinem Belieben.
+      </p>
+
+      <div class="tw-mt-8">
+        <div
+          th:replace="~{fragments/section-heading::section-heading-paddingless(~{::person-notifications-navigation-body}, ~{})}"
+        >
+          <th:block th:ref="person-notifications-navigation-body">
+            <ul
+              class="tw-m-0 tw-p-0 tw-list-none tw-flex tw-flex-col xs:tw-flex-row tw-gap-2 xs:tw-gap-8 tw-mb-2 xs:tw-mb-0"
+            >
+              <li
+                class="tw-border-l-4 dark:tw-border-l-2 xs:tw-border-l-0 xs:dark:tw-border-l-0 xs:tw-border-b-4 xs:dark:tw-border-b-2 tw-pl-2 xs:tw-pl-0"
+                th:classappend="${activeContent == 'self' ? 'tw-border-zinc-200' : 'tw-border-transparent'}"
+              >
+                <a
+                  href="#"
+                  th:href="@{/web/person/{userId}/notifications(userId=${personNotificationsDto.personId})}"
+                  class="tw-text-xl tw-font-medium tw-no-underline hover:tw-text-black-almost dark:hover:tw-text-zinc-200"
+                  th:classappend="${activeContent == 'self' ? 'tw-text-black-almost dark:tw-text-zinc-200' : 'tw-text-zinc-400 dark:tw-text-zinc-500'}"
+                  th:text="#{person.notifications.navigation.personal}"
+                  data-turbo="true"
+                >
+                  Persönlich
+                </a>
+              </li>
+              <li
+                class="tw-border-l-4 dark:tw-border-l-2 xs:tw-border-l-0 xs:dark:tw-border-l-0 xs:tw-border-b-4 xs:dark:tw-border-b-2 tw-pl-2 xs:tw-pl-0"
+                th:classappend="${activeContent == 'departments' ? 'tw-border-zinc-200' : 'tw-border-transparent'}"
+              >
+                <a
+                  href="#"
+                  th:href="@{/web/person/{userId}/notifications/departments(userId=${personNotificationsDto.personId})}"
+                  class="tw-text-xl tw-font-medium tw-no-underline hover:tw-text-black-almost dark:hover:tw-text-zinc-200"
+                  th:classappend="${activeContent == 'departments' ? 'tw-text-black-almost dark:tw-text-zinc-200' : 'tw-text-zinc-400 dark:tw-text-zinc-500'}"
+                  th:text="#{person.notifications.navigation.departments}"
+                  data-turbo="true"
+                >
+                  Abteilungen
+                </a>
+              </li>
+            </ul>
+          </th:block>
+        </div>
+      </div>
+
+      <div th:replace="~{__${formFragment}__}"></div>
+    </main>
+  </body>
+</html>

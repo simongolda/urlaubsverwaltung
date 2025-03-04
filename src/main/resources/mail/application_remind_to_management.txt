@@ -1,0 +1,8 @@
+[(#{greeting(${recipient.niceName})})],
+
+[(#{application.remind.to_management(${application.person.niceName},${#temporals.format(application.applicationDate, "dd.MM.yyyy")})})]
+
+    [(${baseLinkURL})]web/application/[(${application.id})]
+
+
+[# th:replace="~{_notification_description(recipientId=${recipient.id})}" /]

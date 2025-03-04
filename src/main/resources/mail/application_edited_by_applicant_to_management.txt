@@ -1,0 +1,8 @@
+[(#{greeting(${recipient.niceName})})],
+
+[(#{application.edited.by_applicant_to_management(${application.person.niceName}, ${editor.niceName})})]
+
+    [(${baseLinkURL})]web/application/[(${application.id})]
+
+
+[# th:replace="~{_notification_description(recipientId=${recipient.id})}" /]

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>avatar</title>
+  </head>
+  <body>
+    <th:block th:fragment="avatar(url,niceName,initials,width,height,personId)">
+      <th:block th:if="${personId != null}">
+        <a
+          th:href="@{/web/person/__${personId}__/overview}"
+          th:aria-label="#{nav.avatar-menu.overview.link(${niceName})}"
+          class="tw-text-inherit print:no-link"
+          data-turbo="false"
+        >
+          <th:block th:ref="avatar-images">
+            <th:block th:if="${gravatarEnabled == true}" th:with="randomId=${#strings.randomAlphanumeric(25)}">
+              <img
+                src=""
+                th:src="${url}"
+                class="tw-rounded-full tw-hidden"
+                th:height="${height == null ? '42' : height}"
+                th:width="${width == null ? '42' : width}"
+                th:data-id="${randomId}"
+                onload="document.getElementById(this.dataset.id).classList.add('tw-hidden'); this.classList.remove('tw-hidden'); this.classList.add('tw-block');"
+              />
+              <div th:id="${randomId}">
+                <svg th:replace="~{icon/avatar::svg(avatarText=${initials}, height=${height}, width=${width})}"></svg>
+              </div>
+            </th:block>
+
+            <th:block th:if="${gravatarEnabled == false}">
+              <svg th:replace="~{icon/avatar::svg(avatarText=${initials}, height=${height}, width=${width})}"></svg>
+            </th:block>
+          </th:block>
+        </a>
+      </th:block>
+
+      <th:block th:if="${url != null && personId == null}">
+        <th:block th:replace="~{:: avatar-images}"></th:block>
+      </th:block>
+
+      <th:block th:if="${url == null}">
+        <svg th:replace="~{icon/avatar::svg(avatarText='?', height=${height}, width=${width})}"></svg>
+      </th:block>
+    </th:block>
+
+    <span
+      th:fragment="avatar-bordered(url,niceName,initials,width,height,personId)"
+      class="tw-bg-gradient-to-br tw-from-blue-50 tw-to-blue-200 dark:tw-from-sky-800 dark:tw-to-zinc-800 tw-rounded-full tw-p-1 tw-inline-flex"
+    >
+      <img src="#" alt="" th:replace="~{::avatar(${url},${niceName},${initials},${width},${height},${personId})}" />
+    </span>
+  </body>
+</html>

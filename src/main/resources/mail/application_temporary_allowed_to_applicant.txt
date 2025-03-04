@@ -1,0 +1,12 @@
+[(#{greeting(${application.person.niceName})})],
+
+[(#{application.temporary_allowed.to_applicant.first(${#temporals.format(application.applicationDate, "dd.MM.yyyy")},${application.startDate.equals(application.endDate).compareTo(false)},${#temporals.format(application.startDate, "dd.MM.yyyy")},${#temporals.format(application.endDate, "dd.MM.yyyy")},#{__${application.dayLength.name}__})})]
+[(#{application.temporary_allowed.to_applicant.second})]
+
+    [(${baseLinkURL})]web/application/[(${application.id})]
+[# th:if="${not #strings.isEmpty(comment.text)}"]
+[(#{comment.by(${comment.person.niceName})})]
+[(${comment.text})][/]
+
+
+[# th:replace="~{_notification_description(recipientId=${recipient.id})}" /]
