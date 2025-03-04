@@ -1,0 +1,19 @@
+{
+    "id": "com.jukemedia.urlaubsverwaltung",
+    "title": "Urlaubsverwaltung",
+    "author": "Juke Media <info@juke-media.de>",
+    "description": "Urlaubsverwaltung",
+    "tagline": "Urlaubsverwaltung",
+    "version": "0.0.1",
+    "healthCheckPath": "/",
+    "httpPort": 8000,
+    "addons": {
+      "localstorage": {}
+    },
+    "manifestVersion": 2,
+    "website": "https://www.juke-media.de",
+    "contactEmail": "info@juke-media.de",
+    "icon": "file://icon.png",
+    "tags": [ "urlaubsverwaltung" ],
+    "mediaLinks": [ "https://images.rapgenius.com/fd0175ef780e2feefb30055be9f2e022.520x343x1.jpg" ]
+  }
